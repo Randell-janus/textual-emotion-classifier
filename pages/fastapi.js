@@ -9,7 +9,7 @@ export default function Home() {
   async function getSentiment() {
     try {
       const response = await fetch(
-        `http://127.0.0.1:8000/goemotions?text=${text}`,
+        `https://serverless-py.vercel.app/goemotions?text=${text}`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -35,7 +35,7 @@ export default function Home() {
   };
 
   const tapServer = () => {
-    return fetch("http://127.0.0.1:8000/")
+    return fetch("https://serverless-py.vercel.app/")
       .then((resp) => resp.json())
       .then((data) => {
         console.log(data);
