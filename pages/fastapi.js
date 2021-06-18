@@ -9,7 +9,7 @@ export default function Home() {
   async function getSentiment() {
     try {
       const response = await fetch(
-        `https://serverless-py.vercel.app/api/goemotions?text=${text}`,
+        `https://serverless-py.vercel.app/api/goemotions`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
