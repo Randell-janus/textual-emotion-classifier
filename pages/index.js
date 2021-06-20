@@ -1,26 +1,33 @@
 import Head from "next/head";
 // import fetch from "node-fetch";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+
+const deployedURL = "https://serverless-py.vercel.app/api/app";
+const abc = "http://127.0.0.1:8000/?text=bad";
 
 export default function Home() {
   const [text, setText] = useState("");
   const [result, setResult] = useState("");
 
   async function getSentiment() {
-    const response = await fetch(
-      "https://api-inference.huggingface.co/models/joeddav/distilbert-base-uncased-go-emotions-student",
-      {
-        headers: {
-          Authorization: `Bearer ${process.env.NEXT_PUBLIC_SECRET_KEY}`,
-        },
+    try {
+      const response = await fetch(`https://serverless-py.vercel.app/api/app`, {
         method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(text),
+      });
+      if (!response.ok) {
+        throw Error("Error could not analyze");
       }
-    );
-    const data = await response.json();
-    setResult(data);
-    console.log(data);
+      const data = await response.json();
+
+      setResult(data);
+      console.log(data);
+    } catch (err) {
+      alert(err.message);
+    }
   }
+
   const handleGetSentiment = (e) => {
     e.preventDefault();
     getSentiment();
@@ -35,14 +42,15 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div>
-        {/* <form onSubmit={handleGetSentiment}>
+        <form onSubmit={handleGetSentiment}>
           <input
+            type="text"
             required
             value={text}
             onChange={(e) => setText(e.target.value)}
           />
           <button type="submit">Get Sentiment</button>
-        </form> */}
+        </form>
       </div>
     </div>
   );

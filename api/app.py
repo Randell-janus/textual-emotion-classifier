@@ -16,22 +16,19 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# class TextClassification(BaseModel):
-#     text: str
+class TextClassification(BaseModel):
+    text: str
     
-@app.get("/")
-def read_root():
-    return {"Hello": "User"}
+# @app.get("/")
+# def read_root():
+#     return {"Hello": "User"}
+# @app.get("/")
+# async def root():
+#     return {"message": "Hello World"}
 
-@app.post("/classify")
-def classify_text(text):
-    classify = pipeline('sentiment-analysis')
-    output = classify(text)
-    return output
-
-@app.post("/goemotions")
-def classify_emotion(text):
+@app.post("/")
+async def classify_emotion(tc: TextClassification):
     model_name= "joeddav/distilbert-base-uncased-go-emotions-student"
     classify = pipeline('sentiment-analysis', model=model_name)
-    output = classify(text)
+    output = classify(tc.text)
     return output
