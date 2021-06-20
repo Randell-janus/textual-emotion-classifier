@@ -27,14 +27,15 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div>
-        <form onSubmit={handleGetSentiment}>
+        <h1>under construction</h1>
+        {/* <form onSubmit={handleGetSentiment}>
           <input
             required
             value={text}
             onChange={(e) => setText(e.target.value)}
           />
           <button type="submit">Get Sentiment</button>
-        </form>
+        </form> */}
       </div>
     </div>
   );
