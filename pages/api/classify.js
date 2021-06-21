@@ -1,5 +1,3 @@
-const fetch = require("node-fetch");
-
 async function handler(req, res) {
   const response = await fetch(
     "https://api-inference.huggingface.co/models/joeddav/distilbert-base-uncased-go-emotions-student",
