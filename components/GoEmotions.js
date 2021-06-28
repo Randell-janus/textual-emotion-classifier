@@ -53,7 +53,7 @@ export default function GoEmotions() {
 
   return (
     <>
-      <Flex mt={["14em", null, "12em"]} align="center" justify="center">
+      <Flex h='95vh' align="center" justify="center">
         <Container direction="column" maxW={["26em", null, "xl"]}>
           <Heading fontWeight="500" fontSize={["2rem", null, "3rem"]}>
             How have you been?
