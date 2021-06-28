@@ -91,12 +91,23 @@ export default function GoEmotions() {
                 maxLength="50"
                 minLength="3"
                 mb={4}
+                disabled={result.error}
               />
               <Flex>
-                <Button mr={2} mb={16} variant="outline" type="submit">
+                <Button
+                  disabled={result.error}
+                  mr={2}
+                  mb={16}
+                  variant="outline"
+                  type="submit"
+                >
                   Detect
                 </Button>
-                <Button variant="outline" onClick={handleReset}>
+                <Button
+                  disabled={result.error}
+                  variant="outline"
+                  onClick={handleReset}
+                >
                   Clear
                 </Button>
               </Flex>
