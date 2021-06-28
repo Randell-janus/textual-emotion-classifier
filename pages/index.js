@@ -1,27 +1,8 @@
 import Head from "next/head";
-import { useState } from "react";
-import { Flex, VStack, Heading, Text, Input, Button } from "@chakra-ui/react";
-
-const axios = require("axios");
+import GoEmotions from "../components/GoEmotions";
+import Columns from "../components/Columns";
 
 export default function Home() {
-  const [text, setText] = useState("");
-  const [result, setResult] = useState("");
-
-  async function getSentiment() {
-    const res = await axios.post("/api/classify", {
-      sentence: text,
-    });
-    setResult(res.data);
-    console.log(res.data);
-  }
-
-  const handleGetSentiment = (e) => {
-    e.preventDefault();
-    getSentiment();
-    // setText("");
-  };
-
   return (
     <>
       <Head>
@@ -30,44 +11,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Flex h="95vh" align="center" justify="center">
-        <VStack boxShadow="lg" rounded="md" spacing={4} p={8}>
-          <Heading align="center">.</Heading>
-
-          <form onSubmit={null}>
-            <Flex direction="column">
-              <Input
-                required
-                value={text}
-                onChange={(e) => setText(e.target.value)}
-              />
-              <Button disabled mt={2} colorScheme="blue" type="submit">
-                .
-              </Button>
-            </Flex>
-          </form>
-
-          <Flex direction="column">
-            <Heading size="md">.</Heading>
-            {result[0] &&
-              result[0]
-                .sort((a, b) => b.score - a.score)
-                .map(
-                  (data, index) =>
-                    index < 5 && (
-                      <Flex
-                        justify="space-between"
-                        textTransform="capitalize"
-                        key={index}
-                      >
-                        <Text>{data.label}</Text>
-                        <Text>{(data.score * 100).toFixed(0)}%</Text>
-                      </Flex>
-                    )
-                )}
-          </Flex>
-        </VStack>
-      </Flex>
+      <GoEmotions />
     </>
   );
 }

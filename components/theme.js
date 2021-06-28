@@ -5,9 +5,13 @@ export const theme = extendTheme({
     global: (props) => ({
       body: {
         bg: props.colorMode === "dark" ? "gray.800" : "gray.100",
-        fontSize: ['md', null, 'lg'],
+        fontSize: ["md", null, "lg"],
       },
     }),
+  },
+  fonts: {
+    heading: "Poppins",
+    body: "Poppins",
   },
   config: {
     initialColorMode: "light",
@@ -36,7 +40,9 @@ export const theme = extendTheme({
     Button: {
       sizes: {
         md: {
-          fontSize: ["sm", "sm", "md"],
+          fontSize: ["0.75rem", null, "1rem"],
+          fontWeight: "normal",
+          p: [3, 3, 5],
         },
       },
     },
