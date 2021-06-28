@@ -11,6 +11,7 @@ import {
   Divider,
   CircularProgress,
   Badge,
+  Image,
 } from "@chakra-ui/react";
 import "@fontsource/poppins";
 
@@ -20,18 +21,13 @@ export default function GoEmotions() {
   const [text, setText] = useState("");
   const [result, setResult] = useState("");
   const [show, setShow] = useState(false);
-  const [resultIsPending, setResultIsPending] = useState(false);
 
   async function getSentiment() {
     const res = await axios.post("/api/classify", {
       sentence: text,
     });
     setResult(res.data);
-    console.log(res.data);
-
-    if (!result.error) {
-      setResultIsPending(false);
-    }
+    // console.log(res.data);
   }
 
   const handleGetSentiment = (e) => {
@@ -40,8 +36,7 @@ export default function GoEmotions() {
   };
 
   if (result.error) {
-    setTimeout(getSentiment, 2000);
-    setResultIsPending(true);
+    getSentiment();
   }
 
   const handleReset = (e) => {
@@ -53,10 +48,26 @@ export default function GoEmotions() {
 
   return (
     <>
-      <Flex h="100vh" w="100%" align="center" justify="center">
+      <Flex
+        h="100%"
+        w="100%"
+        align="center"
+        justify="center"
+        direction="column"
+      >
+        <Image
+          mt={["8em", null, "6em"]}
+          src="coffee_SVG.svg"
+          // width={[100, 100, 100]}
+          height={[50, 50, 75]}
+        />
         <Container
-          px={9}
-          py={12}
+          //   bgImage="url('coffee_SVG.svg')"
+          //   backgroundRepeat="no-repeat"
+          //   backgroundPosition="right bottom"
+          //   backgroundSize="12em"
+          px={19}
+          py={8}
           direction="column"
           maxW={["26em", null, "xl"]}
         >
@@ -80,23 +91,12 @@ export default function GoEmotions() {
                 maxLength="50"
                 minLength="3"
                 mb={4}
-                disabled={resultIsPending}
               />
               <Flex>
-                <Button
-                  disabled={resultIsPending}
-                  mr={2}
-                  mb={16}
-                  variant="outline"
-                  type="submit"
-                >
+                <Button mr={2} mb={16} variant="outline" type="submit">
                   Detect
                 </Button>
-                <Button
-                  disabled={resultIsPending}
-                  variant="outline"
-                  onClick={handleReset}
-                >
+                <Button variant="outline" onClick={handleReset}>
                   Clear
                 </Button>
               </Flex>
@@ -104,7 +104,6 @@ export default function GoEmotions() {
           </form>
           <Flex align="center">
             <Heading
-              // mt={16}
               mb={1}
               fontWeight="500"
               fontSize={["1.25rem", null, "2rem"]}
@@ -113,7 +112,19 @@ export default function GoEmotions() {
             </Heading>
           </Flex>
           <Divider mb={3} colorScheme="blackAlpha"></Divider>
-          {result[0] ? (
+          {!result[0] && (
+            <Tag
+              fontSize={["0.75rem", null, "1rem"]}
+              borderRadius="full"
+              bg="gray.200"
+              my={1}
+              px={[2, 2, 3]}
+              py={[0, 0, 1]}
+            >
+              {result.error ? "loading..." : "no emotions detected"}
+            </Tag>
+          )}
+          {result[0] &&
             result[0]
               .sort((a, b) => b.score - a.score)
               .map(
@@ -136,36 +147,7 @@ export default function GoEmotions() {
                       </Flex>
                     </Tag>
                   )
-              )
-          ) : (
-            <>
-              {result.error ? (
-                <Tag
-                  fontSize={["0.75rem", null, "1rem"]}
-                  borderRadius="full"
-                  bg="green.200"
-                  my={1}
-                  px={[2, 2, 3]}
-                  py={[0, 0, 1]}
-                >
-                  detecting emotions...
-                </Tag>
-              ) : (
-                <>
-                  <Tag
-                    fontSize={["0.75rem", null, "1rem"]}
-                    borderRadius="full"
-                    bg="gray.200"
-                    my={1}
-                    px={[2, 2, 3]}
-                    py={[0, 0, 1]}
-                  >
-                    no emotions detected
-                  </Tag>
-                </>
               )}
-            </>
-          )}
         </Container>
       </Flex>
     </>

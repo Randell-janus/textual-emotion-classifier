@@ -18,9 +18,9 @@ export default function Columns() {
         </Container>
         <Container align="center">
           <Image
-            src="undraw_welcoming_xvuq.svg"
-            width={[300, 300, 400]}
-            height={[350, 350, 400]}
+            src="coffee_SVG.svg"
+            width={[300, 200, 400]}
+            height={[300, 300, 400]}
           />
         </Container>
       </Flex>
