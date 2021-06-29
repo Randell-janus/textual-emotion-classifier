@@ -9,7 +9,6 @@ import {
   Button,
   Heading,
   Divider,
-  BeatLoader,
 } from "@chakra-ui/react";
 import "@fontsource/poppins";
 
@@ -17,6 +16,7 @@ const axios = require("axios");
 
 export default function GoEmotions() {
   const [text, setText] = useState("");
+  const [count, setCount] = useState(0);
   const [result, setResult] = useState("");
   const [show, setShow] = useState(false);
 
@@ -25,7 +25,6 @@ export default function GoEmotions() {
       sentence: text,
     });
     setResult(res.data);
-    // console.log(res.data);
   }
 
   const handleGetSentiment = (e) => {
@@ -40,6 +39,14 @@ export default function GoEmotions() {
   const handleReset = (e) => {
     setResult("");
     setText("");
+    setCount(0);
+  };
+
+  const handleTextChange = (e) => {
+    const textValue = e.target.value;
+    const countValue = e.target.value.length;
+    setText(textValue);
+    setCount(countValue);
   };
 
   const handleToggle = () => setShow(!show);
@@ -47,37 +54,37 @@ export default function GoEmotions() {
   return (
     <>
       <Flex
-        h={["85vh", "85vh", "90vh"]}
+        h={["85vh", null, "90vh"]}
         w="100%"
         align="center"
         justify="center"
         direction="column"
       >
+        {/* MAIN CONTAINER */}
         <Container
-          // bg="red"
+          // bg='red'
           bgImage="url('coffee_SVG.svg')"
           backgroundRepeat="no-repeat"
           backgroundPosition="right bottom"
-          backgroundSize={["11em", "7em", "11em"]}
-          px={19}
-          py={8}
+          backgroundSize={["6em", null, "9em"]}
+          p={0}
           direction="column"
-          maxW={["24em", null, "2xl"]}
-          h={["md", "27em", "lg"]}
+          maxW={["22em", null, "2xl"]}
+          h={["23em", null, "26em"]}
         >
-          <Heading fontWeight="500" fontSize={["2rem", null, "3rem"]}>
+          <Heading fontWeight="500" fontSize={["1.8rem", null, "2.7rem"]}>
             How have you been?
           </Heading>
-          <Text mt={2} mb={12} fontSize={["0.75rem", null, "1rem"]}>
+          <Text mt={2} mb={12} fontSize={["0.7rem", null, "1rem"]}>
             Describe how you are feeling today or lately.
           </Text>
-
+          {/* MAIN FORM */}
           <form onSubmit={handleGetSentiment}>
             <Flex align="center" display="column">
               <Input
                 required
                 value={text}
-                onChange={(e) => setText(e.target.value)}
+                onChange={handleTextChange}
                 variant="flushed"
                 placeholder="e.g. I had a blast today!"
                 fontSize={["1.25rem", null, "2rem"]}
@@ -87,32 +94,41 @@ export default function GoEmotions() {
                 mb={4}
                 disabled={result.error}
               />
-              <Flex mb={10}>
-                <Button
-                  disabled={result.error}
-                  mr={4}
-                  variant="solid"
-                  type="submit"
-                  bg="gray.700"
-                  color="white"
-                  boxShadow="xl"
-                  py={0}
-                  _focus=""
-                  _hover={{ bg: "gray.500" }}
-                  isLoading={result.error}
-                  loadingText="Detecting"
-                  spinnerPlacement="start"
-                >
-                  Submit
-                </Button>
-                <Button
-                  disabled={result.error}
-                  variant="link"
-                  onClick={handleReset}
-                  _focus=""
-                >
-                  Clear
-                </Button>
+              {/* BUTTONS AND COUNT CONTAINER */}
+              <Flex
+                mb={["3rem", null, "4rem"]}
+                align="center"
+                justify="space-between"
+              >
+                <Flex>
+                  <Button
+                    disabled={result.error}
+                    mr={4}
+                    variant="solid"
+                    type="submit"
+                    bg="gray.700"
+                    color="white"
+                    boxShadow="xl"
+                    _focus=""
+                    _hover={{ bg: "gray.500" }}
+                    isLoading={result.error}
+                    loadingText="Detecting"
+                    spinnerPlacement="start"
+                  >
+                    Submit
+                  </Button>
+                  <Button
+                    disabled={result.error}
+                    variant="link"
+                    onClick={handleReset}
+                    _focus=""
+                  >
+                    Clear
+                  </Button>
+                </Flex>
+                <Text fontSize={["0.7rem", null, "1rem"]}>
+                  Limit: {count}/50
+                </Text>
               </Flex>
             </Flex>
           </form>
@@ -126,23 +142,24 @@ export default function GoEmotions() {
             </Heading>
           </Flex>
           <Divider
-            w={["100%", "100%", "75%"]}
+            w={["57%", null, "48%"]}
             mb={3}
             colorScheme="blackAlpha"
           ></Divider>
+          {/* RESULTS SECTION */}
           {!result[0] && (
             <Tag
-              fontSize={["0.75rem", null, "1rem"]}
+              fontSize={["0.7rem", null, "1rem"]}
               borderRadius="full"
               bg="gray.200"
               my={1}
               px={[2, 2, 3]}
               py={[0, 0, 1]}
             >
-              {result.error ? "loading..." : "no emotions detected"}
+              {result.error ? "loading emotions..." : "no emotions detected"}
             </Tag>
           )}
-          <Box w={["85%", "85%", "80%"]}>
+          <Box>
             {result[0] &&
               result[0]
                 .sort((a, b) => b.score - a.score)
