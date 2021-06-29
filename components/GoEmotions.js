@@ -9,9 +9,7 @@ import {
   Button,
   Heading,
   Divider,
-  CircularProgress,
-  Badge,
-  Image,
+  BeatLoader,
 } from "@chakra-ui/react";
 import "@fontsource/poppins";
 
@@ -49,27 +47,23 @@ export default function GoEmotions() {
   return (
     <>
       <Flex
-        h="100%"
+        h={["85vh", "85vh", "90vh"]}
         w="100%"
         align="center"
         justify="center"
         direction="column"
       >
-        <Image
-          mt={["8em", null, "6em"]}
-          src="coffee_SVG.svg"
-          // width={[100, 100, 100]}
-          height={[50, 50, 75]}
-        />
         <Container
-          //   bgImage="url('coffee_SVG.svg')"
-          //   backgroundRepeat="no-repeat"
-          //   backgroundPosition="right bottom"
-          //   backgroundSize="12em"
+          // bg="red"
+          bgImage="url('coffee_SVG.svg')"
+          backgroundRepeat="no-repeat"
+          backgroundPosition="right bottom"
+          backgroundSize={["11em", "7em", "11em"]}
           px={19}
           py={8}
           direction="column"
-          maxW={["26em", null, "xl"]}
+          maxW={["24em", null, "2xl"]}
+          h={["md", "27em", "lg"]}
         >
           <Heading fontWeight="500" fontSize={["2rem", null, "3rem"]}>
             How have you been?
@@ -85,7 +79,7 @@ export default function GoEmotions() {
                 value={text}
                 onChange={(e) => setText(e.target.value)}
                 variant="flushed"
-                placeholder="I had a blast today!"
+                placeholder="e.g. I had a blast today!"
                 fontSize={["1.25rem", null, "2rem"]}
                 size="xl"
                 maxLength="50"
@@ -93,20 +87,29 @@ export default function GoEmotions() {
                 mb={4}
                 disabled={result.error}
               />
-              <Flex>
+              <Flex mb={10}>
                 <Button
                   disabled={result.error}
-                  mr={2}
-                  mb={16}
-                  variant="outline"
+                  mr={4}
+                  variant="solid"
                   type="submit"
+                  bg="gray.700"
+                  color="white"
+                  boxShadow="xl"
+                  py={0}
+                  _focus=""
+                  _hover={{ bg: "gray.500" }}
+                  isLoading={result.error}
+                  loadingText="Detecting"
+                  spinnerPlacement="start"
                 >
-                  Detect
+                  Submit
                 </Button>
                 <Button
                   disabled={result.error}
-                  variant="outline"
+                  variant="link"
                   onClick={handleReset}
+                  _focus=""
                 >
                   Clear
                 </Button>
@@ -122,7 +125,11 @@ export default function GoEmotions() {
               Emotions conveyed
             </Heading>
           </Flex>
-          <Divider mb={3} colorScheme="blackAlpha"></Divider>
+          <Divider
+            w={["100%", "100%", "75%"]}
+            mb={3}
+            colorScheme="blackAlpha"
+          ></Divider>
           {!result[0] && (
             <Tag
               fontSize={["0.75rem", null, "1rem"]}
@@ -135,30 +142,34 @@ export default function GoEmotions() {
               {result.error ? "loading..." : "no emotions detected"}
             </Tag>
           )}
-          {result[0] &&
-            result[0]
-              .sort((a, b) => b.score - a.score)
-              .map(
-                (data, index) =>
-                  index < 5 && (
-                    <Tag
-                      fontSize={["0.75rem", null, "1rem"]}
-                      borderRadius="full"
-                      bg="blue.100"
-                      mr={[1, 1, 2]}
-                      my={1}
-                      px={[2, 2, 3]}
-                      py={[0, 0, 1]}
-                      key={index}
-                    >
-                      <Flex textTransform="capitalize">
-                        <Text>
-                          {data.label} - {(data.score * 100).toFixed(0)}%
-                        </Text>
-                      </Flex>
-                    </Tag>
-                  )
-              )}
+          <Box w={["85%", "85%", "80%"]}>
+            {result[0] &&
+              result[0]
+                .sort((a, b) => b.score - a.score)
+                .map(
+                  (data, index) =>
+                    index < 5 && (
+                      <Tag
+                        fontSize={["0.75rem", null, "1rem"]}
+                        borderRadius="full"
+                        bg="gray.700"
+                        boxShadow="md"
+                        mr={[1, 1, 2]}
+                        my={1}
+                        px={[2, 2, 3]}
+                        py={[0, 0, 1]}
+                        key={index}
+                        color="white"
+                      >
+                        <Flex textTransform="capitalize">
+                          <Text>
+                            {data.label} {(data.score * 100).toFixed(0)}%
+                          </Text>
+                        </Flex>
+                      </Tag>
+                    )
+                )}
+          </Box>
         </Container>
       </Flex>
     </>

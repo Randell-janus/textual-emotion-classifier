@@ -42,7 +42,8 @@ export const theme = extendTheme({
         md: {
           fontSize: ["0.75rem", null, "1rem"],
           fontWeight: "normal",
-          p: [3, 3, 5],
+          // p: [3, 3, 5],
+          rounded:'3xl'
         },
       },
     },
