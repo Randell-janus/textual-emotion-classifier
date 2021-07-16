@@ -9,6 +9,7 @@ import {
   Button,
   Heading,
   Divider,
+  Image,
 } from "@chakra-ui/react";
 import "@fontsource/poppins";
 

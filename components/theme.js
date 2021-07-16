@@ -6,6 +6,7 @@ export const theme = extendTheme({
       body: {
         bg: props.colorMode === "dark" ? "gray.800" : "gray.100",
         fontSize: ["md", null, "lg"],
+        // color: 'teal.400',
       },
     }),
   },
@@ -42,7 +43,7 @@ export const theme = extendTheme({
         md: {
           fontSize: ["0.7rem", null, "1rem"],
           fontWeight: "normal",
-          h:["1.9rem",null,"2.5rem"],
+          h: ["1.9rem", null, "2.5rem"],
           rounded: "3xl",
         },
       },
