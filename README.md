@@ -1,5 +1,6 @@
 # Emotion Classifier
 Multilabel text classification 🎭
+- https://your-emotions.vercel.app/
 
 ## About
 - This app leverages a pre-trained text classifier [model](https://huggingface.co/joeddav/distilbert-base-uncased-go-emotions-student) from Hugging Face through inference API
