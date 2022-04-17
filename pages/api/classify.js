@@ -8,7 +8,7 @@ async function handler(req, res) {
     }
   );
   const data = await response.json();
-//   console.log(data);
+  // console.log(data);
   return res.json(data);
 }
 

@@ -18,14 +18,20 @@ const axios = require("axios");
 export default function GoEmotions() {
   const [text, setText] = useState("");
   const [count, setCount] = useState(0);
-  const [result, setResult] = useState("");
+  const [result, setResult] = useState([]);
   const [show, setShow] = useState(false);
+
+  const [labels, setLabels] = useState([]);
 
   async function getSentiment() {
     const res = await axios.post("/api/classify", {
       sentence: text,
     });
     setResult(res.data);
+
+    const dataLabels = res.data[0].map((data) => data.label);
+    // console.log(dataLabels);
+    setLabels(dataLabels);
   }
 
   const handleGetSentiment = (e) => {
@@ -188,6 +194,7 @@ export default function GoEmotions() {
                     )
                 )}
           </Box>
+          {/* <div>{labels && labels.map((data, index) => <div>{data}</div>)}</div> */}
         </Container>
       </Flex>
     </>
