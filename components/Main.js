@@ -9,7 +9,7 @@ import {
   Legend,
 } from "chart.js";
 import { Radar } from "react-chartjs-2";
-import { defaultData } from "./utils/data";
+import { useAppContext } from "./utils/context";
 
 const axios = require("axios");
 
@@ -22,48 +22,28 @@ ChartJS.register(
   Legend
 );
 
-export default function GoEmotions() {
+export default function Main() {
   const [text, setText] = useState(
     "I feel like I have no control over my life. It shouldn't be like this."
   );
   const [count, setCount] = useState(text.length);
-  const [result, setResult] = useState([]);
-  const [labels, setLabels] = useState(defaultData.labels);
-  const [scores, setScores] = useState();
 
-  const chartData = {
-    labels: labels,
-    datasets: [
-      {
-        label: "Score Percentage",
-        data: scores,
-        backgroundColor: "rgba(255, 99, 132, 0.2)",
-        borderColor: "rgba(255, 99, 132, 1)",
-        borderWidth: 1,
-      },
-    ],
-  };
+  const { result, setResult, setLabels, setScores, chartData } =
+    useAppContext();
 
   async function getSentiment() {
     const res = await axios.post("/api/classify", {
       sentence: text,
     });
-    setResult(res.data);
     const dataLabels = res.data[0].map((data) => data.label);
-    // console.log(dataLabels);
-    setLabels(dataLabels);
     const dataScores = res.data[0].map((data) => (data.score * 100).toFixed(0));
-    // console.log(dataScores);
+
+    setResult(res.data);
+    setLabels(dataLabels);
     setScores(dataScores);
-  }
 
-  const handleGetSentiment = (e) => {
-    e.preventDefault();
-    getSentiment();
-  };
-
-  if (result.error) {
-    getSentiment();
+    // console.log(dataLabels)
+    // console.log(dataScores)
   }
 
   const handleTextChange = (e) => {
@@ -72,6 +52,13 @@ export default function GoEmotions() {
     setText(textValue);
     setCount(countValue);
   };
+
+  const handleGetSentiment = (e) => {
+    e.preventDefault();
+    getSentiment();
+  };
+
+  if (result.error) getSentiment();
 
   useEffect(() => {
     getSentiment();
