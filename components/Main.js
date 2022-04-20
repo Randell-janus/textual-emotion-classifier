@@ -23,9 +23,7 @@ ChartJS.register(
 );
 
 export default function Main() {
-  const [text, setText] = useState(
-    "I feel like I have no control over my life. It shouldn't be like this."
-  );
+  const [text, setText] = useState("Nice car you got there");
   const [count, setCount] = useState(text.length);
 
   const { result, setResult, setLabels, setScores, chartData } =
@@ -53,6 +51,11 @@ export default function Main() {
     setCount(countValue);
   };
 
+  const handleTextReset = () => {
+    setText("");
+    setCount(0);
+  };
+
   const handleGetSentiment = (e) => {
     e.preventDefault();
     getSentiment();
@@ -68,7 +71,9 @@ export default function Main() {
     <div className="max-w-3xl mx-auto py-8 px-6 space-y-8">
       <div className="space-y-2">
         <h1 className="font-bold">Multilabel Text Classification</h1>
-        <h3 className="">Describe how you are feeling lately.</h3>
+        <h3 className="">
+          Try out some phrases and check if the predictions are accurate.
+        </h3>
         <form className="space-y-2" onSubmit={handleGetSentiment}>
           <input
             className="pt-4 pb-2 border-b border-gray-200 w-full text-base md:text-lg italic focus:outline-none"
@@ -76,13 +81,23 @@ export default function Main() {
             value={text}
             onChange={handleTextChange}
             disabled={result.error}
-            maxLength="75"
+            maxLength="50"
           />
           <div className="flex items-center justify-between">
-            <button className="btn-outline" disabled={result.error}>
-              Submit
-            </button>
-            <p>Limit: {count}/75</p>
+            <div className="space-x-3">
+              <button className="btn-primary" disabled={result.error}>
+                Submit
+              </button>
+              <button
+                onClick={handleTextReset}
+                type="button"
+                className="btn-outline"
+                disabled={result.error}
+              >
+                Clear
+              </button>
+            </div>
+            <p>Limit: {count}/50</p>
           </div>
         </form>
       </div>

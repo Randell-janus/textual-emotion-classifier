@@ -18,9 +18,15 @@
 }
 
 @layer components {
-  .btn-outline {
-    @apply rounded px-5 py-2 border border-gray-300 cursor-pointer;
+  .btn-primary {
+    @apply bg-red-200 rounded px-5 py-2 cursor-pointer border border-red-300;
     @apply transition ease-out duration-200;
-    @apply hover:bg-red-200 hover:text-white hover:border-red-300;
+    @apply hover:bg-red-300 active:bg-red-400;
+  }
+
+  .btn-outline {
+    @apply rounded px-4 py-2 border border-gray-300 cursor-pointer;
+    @apply transition ease-out duration-200;
+    @apply hover:bg-gray-100 active:bg-gray-200;
   }
 }
